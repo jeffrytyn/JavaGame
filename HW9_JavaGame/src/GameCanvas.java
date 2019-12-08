@@ -427,8 +427,17 @@ public class GameCanvas extends JPanel {
 				reset();
 			}
 		}catch (NumberFormatException e) {
-			System.out.println("Non-numeric data present");
-			e.printStackTrace();
+			System.out.println("Non-numeric data present, wiping and resetting game");
+			try {
+				BufferedWriter w = new BufferedWriter(new FileWriter(SAVES));
+				w.write("");
+				w.close();
+			} catch (IOException e1) {
+				System.out.println("Error wiping data after non numeric data found");
+				e1.printStackTrace();
+			}finally {
+				reset();
+			}
 		}catch(NoSuchElementException e) {
 			System.out.println("Missing data from previous save, resetting game");
 			BufferedWriter w;
